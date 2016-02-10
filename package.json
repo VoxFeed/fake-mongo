@@ -1,0 +1,39 @@
+{
+  "name": "fake-mongo",
+  "version": "0.0.1",
+  "description": "A mock to be used instead of mongo",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --recursive test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VoxFeed/fake-mongo.git"
+  },
+  "keywords": [
+    "voxfeed",
+    "mongo",
+    "fake"
+  ],
+  "author": "VoxFeed",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VoxFeed/fake-mongo/issues"
+  },
+  "homepage": "https://github.com/VoxFeed/fake-mongo#readme",
+  "dependencies": {
+    "lodash": "^3.10.1",
+    "verror": "^1.6.0"
+  },
+  "devDependencies": {
+    "crispy-string": "0.0.2",
+    "deepcopy": "^0.5.0",
+    "expect.js": "^0.3.1",
+    "mocha": "^2.3.4",
+    "proxyquire": "^1.7.3",
+    "sinon": "^1.17.2"
+  }
+}
