@@ -31,7 +31,8 @@
     "chai": "^3.5.0",
     "lodash": "^3.10.1",
     "sinon-chai": "^2.8.0",
-    "verror": "^1.6.0"
+    "verror": "^1.6.0",
+    "winston": "^2.1.1"
   },
   "devDependencies": {
     "crispy-string": "0.0.2",
