@@ -25,7 +25,12 @@
   },
   "homepage": "https://github.com/VoxFeed/fake-mongo#readme",
   "dependencies": {
+    "app-module-path": "^1.0.5",
+    "async": "^1.5.2",
+    "bson-objectid": "^1.1.4",
+    "chai": "^3.5.0",
     "lodash": "^3.10.1",
+    "sinon-chai": "^2.8.0",
     "verror": "^1.6.0"
   },
   "devDependencies": {

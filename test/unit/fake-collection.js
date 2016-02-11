@@ -7,7 +7,6 @@ var ObjectId = require('bson-objectid');
 var DataStore = require('./../../lib/data-store');
 var FakeCollection = require('./../../lib/fake-collection');
 var fixtures = require('./../fixtures/tests');
-var logger = require('./../../logs/logger');
 
 describe('Fake Collection', () => {
   var fakeCollection;
