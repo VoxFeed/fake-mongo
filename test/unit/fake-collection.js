@@ -176,6 +176,25 @@ describe('Fake Collection', () => {
       });
     });
 
+    it('update only data sent when key $set is string', (done) => {
+      var newData = {
+        '$set': {
+          name: 'Fred Kingsley',
+          age: 30
+        }
+      };
+
+      updateDocument(newData, (error, data) => {
+        if (error) return done(error);
+
+        expect(data.name).to.be.equal('Fred Kingsley');
+        expect(data.email).to.be.equal('jon.doe@example.com');
+        expect(data.sex).to.be.equal('m');
+        expect(data.age).to.be.equal(30);
+        done();
+      });
+    });
+
     it('remove some data ', (done) => {
       var newData = {
         $unset: {
