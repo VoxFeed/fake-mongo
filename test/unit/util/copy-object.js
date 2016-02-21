@@ -34,8 +34,8 @@ describe('Copy Object', () => {
         item1: 1,
         item2: 'test'
       }, {
-        item4: [1,2,3],
-        item1: {item5:5},
+        item4: [1, 2, 3],
+        item1: {item5: 5}
       }]
     };
 
@@ -44,7 +44,7 @@ describe('Copy Object', () => {
   });
 
   it('copies an array of non-objects', () => {
-    var array = [1,2,3]
+    var array = [1, 2, 3];
 
     var arrayCopied = copyObject(array);
     expect(arrayCopied).to.be.deep.equal(array);
@@ -68,12 +68,37 @@ describe('Copy Object', () => {
         item1: 1,
         item2: 'test'
       }, {
-        item4: [1,2,3],
-        item1: {item5:5},
+        item4: [1, 2, 3],
+        item1: {item5: 5}
       }]
     }];
 
     var arrayCopied = copyObject(array);
     expect(arrayCopied).to.be.deep.equal(array);
+  });
+
+  it('does not modify original if copy gets modified', () => {
+    var obj = {
+      a: 1,
+      b: 2
+    };
+    var array = [{
+      name: 'John Doe',
+      age: 31,
+      sex: 'm',
+      testObject: obj
+    }, {
+      name: 'John Doe 2',
+      age: 32,
+      sex: 'm',
+      testObject: {
+        a: 3,
+        b: 4
+      }
+    }];
+    var copied = array.map(copyObject);
+    copied[0].testObject.b += 2;
+    expect(array[0].testObject.b).not.to.be.equal(copied[0].testObject.b);
+    expect(obj.b).to.be.equal(2);
   });
 });

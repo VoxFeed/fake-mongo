@@ -5,19 +5,31 @@ module.exports = [{
   name: 'Jon Doe',
   email: 'jon.doe@example.com',
   sex: 'm',
+  metaData: {
+    type: 'person'
+  }
 }, {
   name: 'Jane Doe',
   sex: 'f',
-  age: 20
+  age: 20,
+  metaData: {
+    type: 'person'
+  }
 }, {
   _id: ObjectId('56bbb4999ab3c2b4b14de010'),
   name: 'Fred Whisley',
   email: 'freddy@example.com',
   sex: 'm',
-  age: 28
+  age: 28,
+  metaData: {
+    type: 'character'
+  }
 }, {
   name: 'Alice McAllister',
   email: 'aleez@example.com',
   sex: 'f',
-  age: 25
+  age: 25,
+  metaData: {
+    type: 'public-figure'
+  }
 }];
