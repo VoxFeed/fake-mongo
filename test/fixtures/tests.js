@@ -6,7 +6,7 @@ module.exports = [{
   email: 'jon.doe@example.com',
   sex: 'm',
   metaData: {
-    type: 'person'
+    type: 'character'
   }
 }, {
   name: 'Jane Doe',
@@ -22,14 +22,14 @@ module.exports = [{
   sex: 'm',
   age: 28,
   metaData: {
-    type: 'character'
+    type: 'person'
   }
 }, {
   name: 'Alice McAllister',
   email: 'aleez@example.com',
   sex: 'f',
-  age: 25,
+  age: 35,
   metaData: {
-    type: 'public-figure'
+    type: 'person'
   }
 }];

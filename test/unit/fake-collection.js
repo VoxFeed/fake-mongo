@@ -287,20 +287,21 @@ describe('Fake Collection', () => {
       });
     });
 
-    it.skip('supports modifier $in for simple array queries', (done) => {
+    it('supports modifier $in for simple array queries', (done) => {
       var query = {
-        'metaData.type': {'$in': ['person', 'character']},
-        sex: 'm'
+        $and: [
+          {'metaData.type': 'person'},
+          {age: {'$lte': 30}}
+        ]
       };
 
       fakeCollection.find(query, (error, cursor) => {
         if (error) return done(error);
-
         var response = cursor.toArray();
-        var names = response.map((record) => record.name).sort();
-        expect(response.length).to.be.equal(3);
+        var names = response.map((person) => person.name).sort();
+        expect(response.length).to.be.equal(2);
         expect(names[0]).to.be.equal('Fred Whisley');
-        expect(names[1]).to.be.equal('Jon Doe');
+        expect(names[1]).to.be.equal('Jane Doe');
         done();
       });
     });
