@@ -277,9 +277,20 @@ describe('Fake Collection', () => {
       });
     });
 
-    it('supports modifier $in for simple array queries', (done) => {
+    it('gets document by query with two fields', (done) => {
+      fakeCollection.find({name: 'Jon Doe', sex: 'm'}, (error, cursor) => {
+        if (error) return done(error);
+
+        var response = cursor.toArray();
+        expect(response.length).to.be.equal(1);
+        done();
+      });
+    });
+
+    it.skip('supports modifier $in for simple array queries', (done) => {
       var query = {
-        'metaData.type': {'$in': ['person', 'character']}
+        'metaData.type': {'$in': ['person', 'character']},
+        sex: 'm'
       };
 
       fakeCollection.find(query, (error, cursor) => {
@@ -289,8 +300,7 @@ describe('Fake Collection', () => {
         var names = response.map((record) => record.name).sort();
         expect(response.length).to.be.equal(3);
         expect(names[0]).to.be.equal('Fred Whisley');
-        expect(names[1]).to.be.equal('Jane Doe');
-        expect(names[2]).to.be.equal('Jon Doe');
+        expect(names[1]).to.be.equal('Jon Doe');
         done();
       });
     });
