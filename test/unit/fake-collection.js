@@ -122,8 +122,9 @@ describe('Fake Collection', () => {
           expect(response.name).to.be.equal('Jon Doe');
           expect(response.email).to.be.equal('jon.doe@example.com');
           expect(response.sex).to.be.equal('m');
-          expect(response.age).to.not.exist;
-
+          expect(response.age).not.to.exist;
+          expect(response.meta).not.to.exist;
+          expect(response['$loki']).not.to.exist;
           fakeCollection.update(query, data, next);
         },
         (response, next) => {
