@@ -17,7 +17,8 @@ describe('Fake Collection', () => {
     });
 
     it('inserts one single document with id', (done) => {
-      var testData = fixtures[0];
+      const testData = fixtures[0];
+      const expectedName = 'Jon Doe';
       expect(testData._id).to.exist;
 
       fakeCollection.insert(testData, (error, response) => {
@@ -29,7 +30,12 @@ describe('Fake Collection', () => {
         expect(response.ops.length).to.be.equal(1);
         expect(response.insertedIds.length).to.be.equal(1);
         expect(response.ops[0]._id).to.be.instanceof(ObjectId);
-        done();
+        fakeCollection.data.find({name: expectedName}, (error, data) => {
+          expect(error).not.to.exist;
+          expect(data).to.exist;
+          expect(data[0].name).to.be.equal(expectedName);
+          done();
+        });
       });
     });
 
@@ -73,32 +79,41 @@ describe('Fake Collection', () => {
     it('removes document from collection', (done) => {
       var testId = fixtures[0]._id;
 
-      expect(fakeCollection.data.data.length).to.be.equal(4);
-
-      fakeCollection.deleteOne({_id: testId}, (error, response) => {
+      fakeCollection.count({}, (error, count) => {
         if (error) return done(error);
+        expect(count).to.be.equal(4);
 
-        expect(response.result.ok).to.be.equal(1);
-        expect(response.result.n).to.be.equal(1);
-        expect(response.deletedCount).to.be.equal(1);
-        expect(fakeCollection.data.data.length).to.be.equal(3);
-        done();
+        fakeCollection.deleteOne({_id: testId}, (error, response) => {
+          if (error) return done(error);
+
+          expect(response.result.ok).to.be.equal(1);
+          expect(response.result.n).to.be.equal(1);
+          expect(response.deletedCount).to.be.equal(1);
+          fakeCollection.count({}, (error, count) => {
+            expect(count).to.be.equal(3);
+            done(error);
+          });
+        });
       });
     });
 
     it('tries to remove from an unexistent id', (done) => {
       var testId = ObjectId();
 
-      expect(fakeCollection.data.data.length).to.be.equal(4);
-
-      fakeCollection.deleteOne({_id: testId}, (error, response) => {
+      fakeCollection.count({}, (error, count) => {
         if (error) return done(error);
+        expect(count).to.be.equal(4);
+        fakeCollection.deleteOne({_id: testId}, (error, response) => {
+          if (error) return done(error);
 
-        expect(response.result.ok).to.be.equal(1);
-        expect(response.result.n).to.be.equal(0);
-        expect(response.deletedCount).to.be.equal(0);
-        expect(fakeCollection.data.data.length).to.be.equal(4);
-        done();
+          expect(response.result.ok).to.be.equal(1);
+          expect(response.result.n).to.be.equal(0);
+          expect(response.deletedCount).to.be.equal(0);
+          fakeCollection.count({}, (error, count) => {
+            expect(count).to.be.equal(4);
+            done(error);
+          });
+        });
       });
     });
   });
@@ -261,35 +276,40 @@ describe('Fake Collection', () => {
       fakeCollection.find({}, (error, cursor) => {
         if (error) return done(error);
 
-        expect(cursor.toArray().length).to.be.equal(fixtures.length);
-        done();
+        cursor.toArray((error, data) => {
+          if (error) return done(error);
+          expect(data.length).to.be.equal(fixtures.length);
+          done();
+        });
       });
     });
 
     it('gets document by query', (done) => {
-      var documentId = fixtures[2]._id;
+      const documentId = fixtures[2]._id;
       fakeCollection.find({_id: documentId}, (error, cursor) => {
         if (error) return done(error);
-
-        var response = cursor.toArray();
-        expect(response.length).to.be.equal(1);
-        expect(response[0]._id.toString()).to.be.equal(documentId.toString());
-        done();
+        cursor.toArray((error, response) => {
+          if (error) return done(error);
+          expect(response.length).to.be.equal(1);
+          expect(response[0]._id.toString()).to.be.equal(documentId.toString());
+          done();
+        });
       });
     });
 
     it('gets document by query with two fields', (done) => {
       fakeCollection.find({name: 'Jon Doe', sex: 'm'}, (error, cursor) => {
         if (error) return done(error);
-
-        var response = cursor.toArray();
-        expect(response.length).to.be.equal(1);
-        done();
+        cursor.toArray((error, response) => {
+          if (error) return done(error);
+          expect(response.length).to.be.equal(1);
+          done();
+        });
       });
     });
 
     it('supports modifier $in for simple array queries', (done) => {
-      var query = {
+      const query = {
         $and: [
           {'metaData.type': 'person'},
           {age: {'$lte': 30}}
@@ -298,12 +318,14 @@ describe('Fake Collection', () => {
 
       fakeCollection.find(query, (error, cursor) => {
         if (error) return done(error);
-        var response = cursor.toArray();
-        var names = response.map((person) => person.name).sort();
-        expect(response.length).to.be.equal(2);
-        expect(names[0]).to.be.equal('Fred Whisley');
-        expect(names[1]).to.be.equal('Jane Doe');
-        done();
+        cursor.toArray((error, response) => {
+          if (error) return done(error);
+          const names = response.map((person) => person.name).sort();
+          expect(response.length).to.be.equal(2);
+          expect(names[0]).to.be.equal('Fred Whisley');
+          expect(names[1]).to.be.equal('Jane Doe');
+          done();
+        });
       });
     });
   });
